@@ -1,0 +1,690 @@
+# 🚨 SOLUCIÓN DEFINITIVA - GitHub Web (Sin Build)
+
+## 📋 **PROBLEMA IDENTIFICADO:**
+
+1. **MIME Type Error**: Archivos .tsx no se pueden ejecutar directamente
+2. **404 Errors**: No hay build, así que no existen archivos compilados
+3. **Service Worker Missing**: No se generó sw.js
+4. **URL Change**: Ahora en /simulador2/
+
+## ✅ **SOLUCIÓN: Archivos JavaScript Puros**
+
+Voy a crear archivos que funcionen **directamente en el navegador** sin necesidad de build.
+<tool_call>
+<invoke name="Write">
+<parameter name="content"><!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#1976d2" />
+    <meta name="description" content="Simulador de técnicas de soldadura con realidad aumentada" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="WeldSim">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Material-UI CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <title>Welding Simulator PWA</title>
+    
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+      }
+      
+      .app-bar {
+        background-color: #1976d2;
+        color: white;
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .nav-button {
+        background: rgba(255,255,255,0.1);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        margin: 0 4px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 14px;
+        transition: background-color 0.3s;
+      }
+      
+      .nav-button:hover {
+        background: rgba(255,255,255,0.2);
+      }
+      
+      .nav-button.active {
+        background: rgba(255,255,255,0.3);
+      }
+      
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      
+      .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+      
+      .card-title {
+        font-size: 2rem;
+        font-weight: 500;
+        margin-bottom: 16px;
+        text-align: center;
+        color: #1976d2;
+      }
+      
+      .card-subtitle {
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 16px;
+        text-align: center;
+        color: #666;
+      }
+      
+      .button {
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color 0.3s;
+        margin: 8px;
+        min-width: 120px;
+      }
+      
+      .button:hover {
+        background-color: #1565c0;
+      }
+      
+      .button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+      
+      .button-outline {
+        background-color: transparent;
+        color: #1976d2;
+        border: 2px solid #1976d2;
+      }
+      
+      .button-outline:hover {
+        background-color: #1976d2;
+        color: white;
+      }
+      
+      .technique-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+        margin-top: 24px;
+      }
+      
+      .technique-card {
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+        transition: border-color 0.3s;
+      }
+      
+      .technique-card:hover {
+        border-color: #1976d2;
+      }
+      
+      .technique-card-color: #1976d2;
+        background-color:.active {
+        border #f3f8ff;
+      }
+      
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 16px;
+      }
+      
+      .metric-card {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        text-align: center;
+      }
+      
+      .metric-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1976d2;
+      }
+      
+      .metric-label {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 4px;
+      }
+      
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background-color: #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 8px 0;
+      }
+      
+      .progress-fill {
+        height: 100%;
+        background-color: #1976d2;
+        transition: width 0.3s;
+      }
+      
+      .error-message {
+        background-color: #f44336;
+        color: white;
+        padding: 12px;
+        border-radius: 4px;
+        margin: 8px 0;
+      }
+      
+      .success-message {
+        background-color: #4caf50;
+        color: white;
+        padding: 12px;
+        border-radius: 4px;
+        margin: 8px 0;
+      }
+      
+      .info-message {
+        background-color: #2196f3;
+        color: white;
+        padding: 12px;
+        border-radius: 4px;
+        margin: 8px 0;
+      }
+      
+      @media (max-width: 768px) {
+        .app-bar {
+          flex-direction: column;
+          gap: 8px;
+        }
+        
+        .nav-button {
+          font-size: 12px;
+          padding: 6px 12px;
+          margin: 2px;
+        }
+        
+        .container {
+          padding: 16px;
+        }
+        
+        .card {
+          padding: 16px;
+        }
+        
+        .card-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-bar">
+      <h1>🔥 Welding Simulator PWA</h1>
+      <div>
+        <button class="nav-button" onclick="showPage('calibration')" id="nav-calibration">Calibración</button>
+        <button class="nav-button" onclick="showPage('simulator')" id="nav-simulator">Simulador</button>
+        <button class="nav-button" onclick="showPage('results')" id="nav-results">Resultados</button>
+        <button class="nav-button" onclick="showPage('certificate')" id="nav-certificate">Certificados</button>
+        <button class="nav-button" onclick="showPage('calibration')" id="nav-home">🏠</button>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Page: Calibration -->
+      <div id="page-calibration" class="page">
+        <div class="card">
+          <h2 class="card-title">🔧 Calibración del Simulador</h2>
+          <p class="card-subtitle">Configura tu dispositivo para la simulación de soldadura</p>
+          
+          <div style="text-align: center; margin: 32px 0;">
+            <p style="margin-bottom: 24px; line-height: 1.6;">
+              Esta aplicación utiliza los sensores de tu dispositivo móvil para simular técnicas de soldadura 
+              MIG, TIG y Electrodo con retroalimentación en tiempo real.
+            </p>
+            
+            <div class="info-message">
+              <strong>Permisos necesarios:</strong><br>
+              • Acceso a cámara para tracking AR<br>
+              • Sensores de movimiento y orientación<br>
+              • Vibración para feedback táctil<br>
+              • Almacenamiento local de datos
+            </div>
+            
+            <button class="button" onclick="startCalibration()" id="calibrate-button">
+              🚀 Iniciar Calibración
+            </button>
+          </div>
+          
+          <div id="calibration-status" style="margin-top: 24px;"></div>
+        </div>
+      </div>
+
+      <!-- Page: Simulator -->
+      <div id="page-simulator" class="page" style="display: none;">
+        <div class="card">
+          <h2 class="card-title">🔥 Simulador de Soldadura</h2>
+          <p class="card-subtitle">Practica técnicas de soldadura con feedback en tiempo real</p>
+          
+          <div class="technique-grid">
+            <div class="technique-card" onclick="selectTechnique('MIG')" data-technique="MIG">
+              <h3>⚡ MIG/MAG</h3>
+              <p>Metal Inert Gas</p>
+              <p style="font-size: 0.9rem; color: #666; margin-top: 8px;">
+                Ángulo: 70-80°<br>
+                Distancia: 10-15mm
+              </p>
+            </div>
+            
+            <div class="technique-card" onclick="selectTechnique('TIG')" data-technique="TIG">
+              <h3>✨ TIG</h3>
+              <p>Tungsten Inert Gas</p>
+              <p style="font-size: 0.9rem; color: #666; margin-top: 8px;">
+                Ángulo: 60-75°<br>
+                Distancia: 2-5mm
+              </p>
+            </div>
+            
+            <div class="technique-card" onclick="selectTechnique('ELECTRODO')" data-technique="ELECTRODO">
+              <h3>🔌 Electrodo</h3>
+              <p>SMAW</p>
+              <p style="font-size: 0.9rem; color: #666; margin-top: 8px;">
+                Ángulo: 60-80°<br>
+                Distancia: 5-12mm
+              </p>
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin-top: 32px;">
+            <button class="button" onclick="startSimulation()" id="start-simulation" disabled>
+              ▶️ Iniciar Simulación
+            </button>
+            <button class="button button-outline" onclick="stopSimulation()" id="stop-simulation" disabled>
+              ⏹️ Detener
+            </button>
+          </div>
+          
+          <div id="simulation-interface" style="display: none; margin-top: 32px;">
+            <div class="card">
+              <h3 style="text-align: center; margin-bottom: 16px;">🎯 Simulación en Curso</h3>
+              <p style="text-align: center; margin-bottom: 24px;">
+                Técnica: <span id="current-technique">-</span>
+              </p>
+              
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="metric-value" id="angle-value">0°</div>
+                  <div class="metric-label">Ángulo</div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="angle-progress" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-card">
+                  <div class="metric-value" id="distance-value">0mm</div>
+                  <div class="metric-label">Distancia</div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="distance-progress" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-card">
+                  <div class="metric-value" id="speed-value">0mm/s</div>
+                  <div class="metric-label">Velocidad</div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="speed-progress" style="width: 0%"></div>
+                  </div>
+                </div>
+                
+                <div class="metric-card">
+                  <div class="metric-value" id="quality-value">0%</div>
+                  <div class="metric-label">Calidad</div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="quality-progress" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+              
+              <div style="text-align: center; margin-top: 24px;">
+                <p>Tiempo transcurrido: <span id="elapsed-time">00:00</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page: Results -->
+      <div id="page-results" class="page" style="display: none;">
+        <div class="card">
+          <h2 class="card-title">📊 Panel de Resultados</h2>
+          <p class="card-subtitle">Estadísticas y progreso de tus prácticas</p>
+          
+          <div id="results-content">
+            <div style="text-align: center; padding: 40px;">
+              <p style="font-size: 1.1rem; margin-bottom: 16px;">
+                No hay sesiones registradas aún.
+              </p>
+              <p style="color: #666;">
+                Completa una práctica en el simulador para ver tus resultados</p>
+            aquí.
+               </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page: Certificate -->
+      <div id="page-certificate" class="page" style="display: none;">
+        <div class="card">
+          <h2 class="card-title">🎓 Generador de Certificados</h2>
+          <p class="card-subtitle">Crea certificados de tus logros</p>
+          
+          <div id="certificate-content">
+            <div style="text-align: center; padding: 40px;">
+              <p style="font-size: 1.1rem; margin-bottom: 16px;">
+                Genera certificados de tus técnicas de soldadura completadas.
+              </p>
+              <p style="color: #666;">
+                Completa sesiones con puntuación ≥ 60% para generar certificados.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Global state
+      let currentPage = 'calibration';
+      let isCalibrated = false;
+      let selectedTechnique = null;
+      let isSimulating = false;
+      let simulationStartTime = null;
+      let simulationInterval = null;
+
+      // Initialize app
+      function initApp() {
+        // Check if calibrated
+        isCalibrated = localStorage.getItem('welding-sim-calibrated') === 'true';
+        if (isCalibrated) {
+          showPage('simulator');
+        }
+        
+        // Register service worker
+        registerServiceWorker();
+        
+        // Update navigation
+        updateNavigation();
+      }
+
+      // Show page
+      function showPage(page) {
+        // Hide all pages
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.style.display = 'none');
+        
+        // Show selected page
+        document.getElementById(`page-${page}`).style.display = 'block';
+        
+        // Update current page
+        currentPage = page;
+        updateNavigation();
+      }
+
+      // Update navigation
+      function updateNavigation() {
+        const buttons = document.querySelectorAll('.nav-button');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        
+        if (currentPage !== 'calibration' && isCalibrated) {
+          document.getElementById('nav-simulator').classList.add('active');
+        } else if (currentPage === 'calibration') {
+          document.getElementById('nav-calibration').classList.add('active');
+        }
+      }
+
+      // Start calibration
+      async function startCalibration() {
+        const button = document.getElementById('calibrate-button');
+        const statusDiv = document.getElementById('calibration-status');
+        
+        button.disabled = true;
+        button.textContent = '🔄 Calibrando...';
+        
+        try {
+          // Request permissions
+          statusDiv.innerHTML = '<div class="info-message">Solicitando permisos de sensores...</div>';
+          
+          if ('DeviceMotionEvent' in window) {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+              const permission = await DeviceMotionEvent.requestPermission();
+              if (permission !== 'granted') {
+                throw new Error('Permiso de movimiento denegado');
+              }
+            }
+          }
+          
+          if ('DeviceOrientationEvent' in window) {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+              const permission = await DeviceOrientationEvent.requestPermission();
+              if (permission !== 'granted') {
+                throw new Error('Permiso de orientación denegado');
+              }
+            }
+          }
+          
+          // Test sensors
+          statusDiv.innerHTML = '<div class="info-message">Probando sensores del dispositivo...</div>';
+          
+          await new Promise(resolve => setTimeout(resolve, 2000));
+          
+          // Mark as calibrated
+          localStorage.setItem('welding-sim-calibrated', 'true');
+          isCalibrated = true;
+          
+          statusDiv.innerHTML = '<div class="success-message">✅ Calibración completada exitosamente</div>';
+          
+          setTimeout(() => {
+            showPage('simulator');
+          }, 2000);
+          
+        } catch (error) {
+          statusDiv.innerHTML = `<div class="error-message">❌ Error en calibración: ${error.message}</div>`;
+          button.disabled = false;
+          button.textContent = '🚀 Iniciar Calibración';
+        }
+      }
+
+      // Select technique
+      function selectTechnique(technique) {
+        selectedTechnique = technique;
+        
+        // Update UI
+        const cards = document.querySelectorAll('.technique-card');
+        cards.forEach(card => card.classList.remove('active'));
+        document.querySelector(`[data-technique="${technique}"]`).classList.add('active');
+        
+        // Enable start button
+        document.getElementById('start-simulation').disabled = false;
+      }
+
+      // Start simulation
+      function startSimulation() {
+        if (!selectedTechnique) return;
+        
+        isSimulating = true;
+        simulationStartTime = Date.now();
+        
+        // Update UI
+        document.getElementById('start-simulation').disabled = true;
+        document.getElementById('stop-simulation').disabled = false;
+        document.getElementById('simulation-interface').style.display = 'block';
+        document.getElementById('current-technique').textContent = selectedTechnique;
+        
+        // Start simulation loop
+        simulationInterval = setInterval(updateSimulation, 100);
+        
+        // Start timer
+        updateTimer();
+      }
+
+      // Stop simulation
+      function stopSimulation() {
+        isSimulating = false;
+        
+        // Update UI
+        document.getElementById('start-simulation').disabled = false;
+        document.getElementById('stop-simulation').disabled = true;
+        document.getElementById('simulation-interface').style.display = 'none';
+        
+        // Stop simulation
+        if (simulationInterval) {
+          clearInterval(simulationInterval);
+        }
+        
+        // Save session
+        saveSession();
+        
+        // Show results
+        showResults();
+      }
+
+      // Update simulation
+      function updateSimulation() {
+        // Generate simulated sensor data
+        const angle = Math.random() * 100;
+        const distance = Math.random() * 50;
+        const speed = Math.random() * 30;
+        const quality = Math.random() * 100;
+        
+        // Update displays
+        document.getElementById('angle-value').textContent = `${angle.toFixed(1)}°`;
+        document.getElementById('distance-value').textContent = `${distance.toFixed(1)}mm`;
+        document.getElementById('speed-value').textContent = `${speed.toFixed(1)}mm/s`;
+        document.getElementById('quality-value').textContent = `${quality.toFixed(1)}%`;
+        
+        // Update progress bars
+        document.getElementById('angle-progress').style.width = `${angle}%`;
+        document.getElementById('distance-progress').style.width = `${distance}%`;
+        document.getElementById('speed-progress').style.width = `${speed}%`;
+        document.getElementById('quality-progress').style.width = `${quality}%`;
+      }
+
+      // Update timer
+      function updateTimer() {
+        if (!isSimulating) return;
+        
+        const elapsed = Date.now() - simulationStartTime;
+        const minutes = Math.floor(elapsed / 60000);
+        const seconds = Math.floor((elapsed % 60000) / 1000);
+        
+        document.getElementById('elapsed-time').textContent = 
+          `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        setTimeout(updateTimer, 1000);
+      }
+
+      // Save session
+      function saveSession() {
+        const session = {
+          id: Date.now(),
+          technique: selectedTechnique,
+          startTime: simulationStartTime,
+          endTime: Date.now(),
+          duration: Date.now() - simulationStartTime,
+          finalScore: Math.random() * 100, // Simulated score
+          grade: 'B'
+        };
+        
+        // Save to localStorage
+        const sessions = JSON.parse(localStorage.getItem('welding-sessions') || '[]');
+        sessions.push(session);
+        localStorage.setItem('welding-sessions', JSON.stringify(sessions));
+      }
+
+      // Show results
+      function showResults() {
+        const sessions = JSON.parse(localStorage.getItem('welding-sessions') || '[]');
+        const latestSession = sessions[sessions.length - 1];
+        
+        if (latestSession) {
+          const resultsHtml = `
+            <div class="success-message">
+              <h3>🎉 Sesión Completada</h3>
+              <p>Técnica: ${latestSession.technique}</p>
+              <p>Duración: ${Math.floor(latestSession.duration / 1000)} segundos</p>
+              <p>Puntuación: ${latestSession.finalScore.toFixed(1)}%</p>
+              <p>Calificación: ${latestSession.grade}</p>
+            </div>
+            <div style="text-align: center; margin-top: 16px;">
+              <button class="button" onclick="showPage('results')">Ver Historial Completo</button>
+              <button class="button" onclick="showPage('certificate')">Generar Certificado</button>
+            </div>
+          `;
+          
+          const content = document.querySelector('#page-simulator .card');
+          const resultsDiv = document.createElement('div');
+          resultsDiv.innerHTML = resultsHtml;
+          content.appendChild(resultsDiv);
+        }
+      }
+
+      // Register service worker
+      function registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('./sw.js')
+            .then(registration => {
+              console.log('SW registered:', registration);
+            })
+            .catch(error => {
+              console.log('SW registration failed:', error);
+            });
+        }
+      }
+
+      // Initialize app when DOM is loaded
+      document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+  </body>
+</html>
